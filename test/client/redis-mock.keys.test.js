@@ -82,10 +82,21 @@ describe("exists", function () {
 
   });
 
-  it("should return an array for multiple existing keys, existing and not", function (done) {
+  it("should return the correct amount of existing keys if passed as multiple args", function (done) {
     r.set("test", "test", function (err, result) {
       r.set("test2", "test", function (err, result) {
         r.exists("test", "test2", "nonexistant", function (err, result) {
+            result.should.eql(2);
+            done();
+        });
+      });
+    });
+  });
+
+  it("should return the correct amount of existing keys if passed as an array arg", function (done) {
+    r.set("test", "test", function (err, result) {
+      r.set("test2", "test", function (err, result) {
+        r.exists(["test", "test2", "nonexistant"], function (err, result) {
             result.should.eql(2);
             done();
         });
